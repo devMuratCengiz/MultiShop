@@ -1,0 +1,33 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+@await Component.InvokeAsync("_UILayoutHead")
+
+
+
+<body>
+    @await Component.InvokeAsync("_UILayoutTopBar")
+
+
+    @await Component.InvokeAsync("_UILayoutNavbar")
+  
+
+
+    @RenderBody()
+
+
+    @await Component.InvokeAsync("_UILayoutFooter")
+ 
+
+    <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+    @await Component.InvokeAsync("_UILayoutScripts")
+   
+</body>
+
+</html>
