@@ -6,7 +6,7 @@ using MultiShop.Catalog.Services.CategoryServices;
 
 namespace MultiShop.Catalog.Controllers
 {
-    [Authorize]
+    [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
     public class CategoriesController : ControllerBase
@@ -41,7 +41,7 @@ namespace MultiShop.Catalog.Controllers
             await _categoryService.UpdateCategoryAsync(updateCategoryDto);
             return Ok("Updated");
         }
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult>Delete(string id)
         {
             await _categoryService.DeleteCategoryAsync(id);

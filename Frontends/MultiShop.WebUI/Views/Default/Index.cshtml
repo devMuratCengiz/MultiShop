@@ -4,5 +4,10 @@
     Layout = "~/Views/Layout/_UILayout.cshtml";
 }
 
-<h1>Default</h1>
+@await Component.InvokeAsync("_DefaultCarousel")
+@await Component.InvokeAsync("_DefaultFeature")
+@await Component.InvokeAsync("_DefaultCategory")
+@await Component.InvokeAsync("_DefaultProduct")
+@await Component.InvokeAsync("_DefaultOffer")
+@await Component.InvokeAsync("_DefaultBrand")
 

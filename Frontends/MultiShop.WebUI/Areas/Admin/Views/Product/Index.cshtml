@@ -1,0 +1,48 @@
+﻿@model List<ResultProductsWithCategoriesDto>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/AdminLayout/_AdminLayout.cshtml";
+    int count = 0;
+}
+
+<section class="content container-fluid">
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="chart-box">
+                <h4>Ürünler</h4>
+
+                <div class="bs-example" data-example-id="bordered-table">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Ürün Adı</th>
+                                <th>Ürün Fiyatı</th>
+                                <th>Kategori</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                count++;
+                                <tr>
+                                    <th scope="row">@count</th>
+                                    <td>@item.ProductName</td>
+                                    <td>@item.ProductPrice</td>
+                                    <td>@item.Category.CategoryName</td>
+                                    <td><a asp-area="Admin" asp-action="ProductImageDetail" asp-controller="ProductImage" asp-route-id="@item.ProductId" class="btn btn-info">Görseller</a></td>
+                                    <td><a asp-area="Admin" asp-action="UpdateProductDetail" asp-controller="ProductDetail" asp-route-id="@item.ProductId" class="btn btn-secondary">Açıklama ve Bilgi</a></td>
+                                    <td><a asp-area="Admin" asp-action="Update" asp-controller="Product" asp-route-id="@item.ProductId" class="btn btn-warning">Güncelle</a></td>
+                                    <td><a asp-area="Admin" asp-action="Delete" asp-controller="Product" asp-route-id="@item.ProductId" class="btn btn-danger">Sil</a></td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                    <td><a asp-area="Admin" asp-action="Create" asp-controller="Product" class="btn btn-success">Ekle</a></td>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

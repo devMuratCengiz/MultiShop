@@ -6,7 +6,7 @@ using MultiShop.Catalog.Services.ProductImageServices;
 
 namespace MultiShop.Catalog.Controllers
 {
-    [Authorize]
+    [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductImagesController : ControllerBase
@@ -29,6 +29,12 @@ namespace MultiShop.Catalog.Controllers
             var value = await _productImageService.GetByIdProductImageAsync(id);
             return Ok(value);
         }
+        [HttpGet("ProductImagesByProductId/{id}")]
+        public async Task<IActionResult> ProductImagesByProductId(string id)
+        {
+            var values = await _productImageService.GetByProductIdProductImageAsync(id);
+            return Ok(values);
+        }
         [HttpPost]
         public async Task<IActionResult> Create(CreateProductImageDto createProductImageDto)
         {
@@ -41,7 +47,7 @@ namespace MultiShop.Catalog.Controllers
             await _productImageService.UpdateProductImageAsync(updateProductImageDto);
             return Ok("Updated");
         }
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
             await _productImageService.DeleteProductImageAsync(id);
