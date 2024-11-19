@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MultiShop.Dto.CatalogDtos.ServiceDtos;
+using MultiShop.WebUI.Services.CatalogServices.ServiceServices;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -8,23 +9,17 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
     [Area("Admin")]
     public class ServiceController : Controller
     {
-        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IServiceService _serviceService;
 
-        public ServiceController(IHttpClientFactory httpClientFactory)
+        public ServiceController(IServiceService serviceService)
         {
-            _httpClientFactory = httpClientFactory;
+            _serviceService = serviceService;
         }
+
         public async Task<IActionResult> Index()
         {
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7069/api/Services");
-            if (responseMessage.IsSuccessStatusCode)
-            {
-                var jsonData = await responseMessage.Content.ReadAsStringAsync();
-                var values = JsonConvert.DeserializeObject<List<ResultServiceDto>>(jsonData);
-                return View(values);
-            }
-            return View();
+            var values = await _serviceService.GetAllServicesAsync();
+            return View(values);
         }
         public async Task<IActionResult> Create()
         {
@@ -33,51 +28,25 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateServiceDto createServiceDto)
         {
-            var client = _httpClientFactory.CreateClient();
-            var jsonData = JsonConvert.SerializeObject(createServiceDto);
-            StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PostAsync("https://localhost:7069/api/Services", content);
-            if (responseMessage.IsSuccessStatusCode)
-            {
-                return RedirectToAction("Index");
-            }
-            return View();
+            await _serviceService.CreateServiceAsync(createServiceDto);
+            return RedirectToAction("Index");
         }
         public async Task<IActionResult> Delete(string id)
         {
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.DeleteAsync("https://localhost:7069/api/Services/" + id);
-            if (responseMessage.IsSuccessStatusCode)
-            {
-                return RedirectToAction("Index");
-            }
-            return View();
+            await _serviceService.DeleteServiceAsync(id);
+            return RedirectToAction("Index");
         }
         public async Task<IActionResult> Update(string id)
         {
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7069/api/Services/" + id);
-            if (responseMessage.IsSuccessStatusCode)
-            {
-                var jsonData = await responseMessage.Content.ReadAsStringAsync();
-                var value = JsonConvert.DeserializeObject<UpdateServiceDto>(jsonData);
-                return View(value);
-            }
-            return View();
+            var value = await _serviceService.GetByIdServiceAsync(id);
+            return View(value);
         }
 
         [HttpPost]
         public async Task<IActionResult> Update(UpdateServiceDto updateServiceDto)
         {
-            var client = _httpClientFactory.CreateClient();
-            var jsonData = JsonConvert.SerializeObject(updateServiceDto);
-            StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PutAsync("https://localhost:7069/api/Services", content);
-            if (responseMessage.IsSuccessStatusCode)
-            {
-                return RedirectToAction("Index");
-            }
-            return View();
+            await _serviceService.UpdateServiceAsync(updateServiceDto);
+            return RedirectToAction("Index");
         }
     }
 }
