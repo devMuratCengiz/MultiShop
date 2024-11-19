@@ -18,7 +18,7 @@
     <div class="row px-xl-5">
         @await Component.InvokeAsync("_ProductDetailImageSlider", new { id = ViewBag.x })
 
-        @await Component.InvokeAsync("_ProductDetailFeature", new { id = ViewBag.x })
+        @await Component.InvokeAsync("_ProductDetailFeature", new { id = ViewBag.x }) 
 
 
     </div>
@@ -34,8 +34,7 @@
                     @await Component.InvokeAsync("_ProductDetailDescription", new {id=ViewBag.x})
                     @await Component.InvokeAsync("_ProductDetailInformation", new { id = ViewBag.x })
                     @await Component.InvokeAsync("_ProductDetailReview", new { id = ViewBag.x })
-@*                     @await Html.PartialAsync("~/Views/ProductList/AddComment.cshtml",new{id=ViewBag.x})
- *@
+ 
                 </div>
             </div>
         </div>
