@@ -1,4 +1,5 @@
-﻿using MultiShop.Cargo.Entity.Concrete;
+﻿using MultiShop.Cargo.DataAccess.Concrete;
+using MultiShop.Cargo.Entity.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +10,6 @@ namespace MultiShop.Cargo.Business.Abstract
 {
     public interface ICargoCustomerService:IGenericService<CargoCustomer>
     {
+        CargoCustomer TGetCargoCustomerById(string id);
     }
 }

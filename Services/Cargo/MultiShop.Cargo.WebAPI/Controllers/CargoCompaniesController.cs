@@ -23,7 +23,7 @@ namespace MultiShop.Cargo.WebAPI.Controllers
         {
             var values = _cargoCompanyService.TGetAll();
             return Ok(values);
-            
+
         }
         [HttpPost]
         public IActionResult Create(CreateCargoCompanyDto createCargoCompanyDto)
@@ -35,7 +35,7 @@ namespace MultiShop.Cargo.WebAPI.Controllers
             _cargoCompanyService.TInsert(cargoCompany);
             return Ok("Added");
         }
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
             _cargoCompanyService.TDelete(id);

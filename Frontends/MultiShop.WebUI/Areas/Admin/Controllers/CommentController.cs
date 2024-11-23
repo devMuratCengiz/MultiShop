@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MultiShop.Dto.CommentDtos;
+using MultiShop.WebUI.Services.CommentServices;
 using Newtonsoft.Json;
+using System.Net.Http;
 using System.Text;
 
 namespace MultiShop.WebUI.Areas.Admin.Controllers
@@ -8,22 +10,17 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
     [Area("Admin")]
     public class CommentController : Controller
     {
-        private readonly IHttpClientFactory _httpClientFactory;
-        public CommentController(IHttpClientFactory httpClientFactory)
+        private readonly ICommentService _commentService;
+
+        public CommentController(ICommentService commentService)
         {
-            _httpClientFactory = httpClientFactory;
+            _commentService = commentService;
         }
+
         public async Task<IActionResult> Index()
         {
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7083/api/Comments");
-            if (responseMessage.IsSuccessStatusCode)
-            {
-                var jsonData = await responseMessage.Content.ReadAsStringAsync();
-                var values = JsonConvert.DeserializeObject<List<ResultCommentDto>>(jsonData);
-                return View(values);
-            }
-            return View();
+            var values = await _commentService.GetAllCommentsAsync();
+            return View(values);
         }
         public async Task<IActionResult> Create()
         {
@@ -32,52 +29,25 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateCommentDto createCommentDto)
         {
-            createCommentDto.CreatedDate = DateTime.Now;
-            var client = _httpClientFactory.CreateClient();
-            var jsonData = JsonConvert.SerializeObject(createCommentDto);
-            StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PostAsync("https://localhost:7083/api/Comments", content);
-            if (responseMessage.IsSuccessStatusCode)
-            {
-                return RedirectToAction("Index");
-            }
-            return View();
+            await _commentService.CreateCommentAsync(createCommentDto);
+            return RedirectToAction("Index");
         }
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(string id)
         {
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.DeleteAsync("https://localhost:7083/api/Comments/" + id);
-            if (responseMessage.IsSuccessStatusCode)
-            {
-                return RedirectToAction("Index");
-            }
-            return View();
+            await _commentService.DeleteCommentAsync(id);
+            return RedirectToAction("Index");
         }
-        public async Task<IActionResult> Update(int id)
+        public async Task<IActionResult> Update(string id)
         {
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7083/api/Comments/" + id);
-            if (responseMessage.IsSuccessStatusCode)
-            {
-                var jsonData = await responseMessage.Content.ReadAsStringAsync();
-                var value = JsonConvert.DeserializeObject<UpdateCommentDto>(jsonData);
-                return View(value);
-            }
-            return View();
+            var value = await _commentService.GetByIdCommentAsync(id);
+            return View(value);
         }
 
         [HttpPost]
         public async Task<IActionResult> Update(UpdateCommentDto updateCommentDto)
         {
-            var client = _httpClientFactory.CreateClient();
-            var jsonData = JsonConvert.SerializeObject(updateCommentDto);
-            StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PutAsync("https://localhost:7083/api/Comments", content);
-            if (responseMessage.IsSuccessStatusCode)
-            {
-                return RedirectToAction("Index");
-            }
-            return View();
+            await _commentService.UpdateCommentAsync(updateCommentDto);
+            return RedirectToAction("Index");
         }
     }
 }

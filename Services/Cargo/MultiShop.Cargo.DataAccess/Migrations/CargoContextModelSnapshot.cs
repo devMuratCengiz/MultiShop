@@ -17,7 +17,7 @@ namespace MultiShop.Cargo.DataAccess.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.10")
+                .HasAnnotation("ProductVersion", "9.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -73,6 +73,9 @@ namespace MultiShop.Cargo.DataAccess.Migrations
 
                     b.Property<string>("Surname")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserCustomerId")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CargoCustomerId");

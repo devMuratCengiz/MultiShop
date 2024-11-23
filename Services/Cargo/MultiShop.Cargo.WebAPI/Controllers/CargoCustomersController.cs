@@ -42,7 +42,8 @@ namespace MultiShop.Cargo.WebAPI.Controllers
                 District = createCargoCustomerDto.District,
                 Email = createCargoCustomerDto.Email,
                 Phone = createCargoCustomerDto.Phone,
-                Surname = createCargoCustomerDto.Surname
+                Surname = createCargoCustomerDto.Surname,
+                UserCustomerId = createCargoCustomerDto.UserCustomerId
             };
             _cargoCustomerService.TInsert(customer);
             return Ok("Added");
@@ -59,10 +60,17 @@ namespace MultiShop.Cargo.WebAPI.Controllers
                 City = updateCargoCustomerDto.City,
                 District = updateCargoCustomerDto.Email,
                 Phone = updateCargoCustomerDto.Phone,
-                Surname = updateCargoCustomerDto.Surname
+                Surname = updateCargoCustomerDto.Surname,
+                UserCustomerId = updateCargoCustomerDto.UserCustomerId
             };
             _cargoCustomerService.TUpdate(customer);
             return Ok("Updated");
         }
+        [HttpGet("GetCargoCustomerById")]
+        public IActionResult GetCargoCustomerById(string id)
+        {
+            return Ok(_cargoCustomerService.TGetCargoCustomerById(id));
+        }
+
     }
 }

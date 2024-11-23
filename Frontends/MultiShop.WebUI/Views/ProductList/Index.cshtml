@@ -19,22 +19,19 @@
     <div class="row px-xl-5">
         <div class="col-lg-3 col-md-4">
            
-            @await Component.InvokeAsync("_ProductListPriceFilter")
+           @await Component.InvokeAsync("_ProductListPriceFilter")
             
             @await Component.InvokeAsync("_ProductListColorFilter")
 
             @await Component.InvokeAsync("_ProductListSizeFilter")
             
-            
         </div>
 
         <div class="col-lg-9 col-md-8">
             <div class="row pb-3">
-                @await Component.InvokeAsync("_ProductListGetProductCount")
+                 @await Component.InvokeAsync("_ProductListGetProductCount") 
 
                 @await Component.InvokeAsync("_ProductList",new {id=ViewBag.i})
-
-                @await Component.InvokeAsync("_ProductListPagination")
                 
             </div>
         </div>

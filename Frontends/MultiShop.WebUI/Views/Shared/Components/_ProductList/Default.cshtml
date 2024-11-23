@@ -15,7 +15,7 @@
                     </div>
                 </div>
                 <div class="text-center py-4">
-                    <a class="h6 text-decoration-none text-truncate" href="">@item.ProductName</a>
+                    <a class="h6 text-decoration-none text-truncate" asp-action="ProductDetail" asp-controller="ProductList" asp-route-idx="@item.ProductId">@item.ProductName</a>
                     <div class="d-flex align-items-center justify-content-center mt-2">
                         <h5>@item.ProductPrice ₺</h5><h6 class="text-muted ml-2"><del>@x ₺</del></h6>
                     </div>
@@ -25,7 +25,6 @@
                         <small class="fa fa-star text-primary mr-1"></small>
                         <small class="fa fa-star text-primary mr-1"></small>
                         <small class="fa fa-star text-primary mr-1"></small>
-                        <small>(25)</small>
                     </div>
                 </div>
             </div>
