@@ -1,0 +1,22 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+@await Component.InvokeAsync("_UserLayoutHead")
+<body>
+    <div class="container-scroller d-flex">
+        @await Component.InvokeAsync("_UserLayoutSidebar")
+        
+        <div class="container-fluid page-body-wrapper">
+            @await Component.InvokeAsync("_UserLayoutNavbar")
+            @RenderBody()
+        </div>
+    </div>
+
+    @await Component.InvokeAsync("_UserLayoutScript")
+</body>
+
+</html>
